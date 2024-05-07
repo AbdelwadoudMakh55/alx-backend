@@ -36,9 +36,7 @@ class LRUCache(BaseCaching):
         """ Returns the value of the key from the dictionary """
         if key is None:
             return None
-        try:
+        if key in self.cache_data.keys():
             self.lru[key] = time.time()
             return self.cache_data[key]
-        except KeyError:
-            del self.lru[key]
-            return None
+        return None
