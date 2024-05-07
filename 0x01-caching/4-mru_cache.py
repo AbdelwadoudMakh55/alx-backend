@@ -26,7 +26,7 @@ class MRUCache(BaseCaching):
             discard_key = None
             for k, v in self.mru.items():
                 if k != key and v > mru_time:
-                    mru_time = time.time() - v
+                    mru_time = v
                     discard_key = k
             print("DISCARD:", discard_key)
             del self.mru[discard_key]
