@@ -25,7 +25,7 @@ class FIFOCache(BaseCaching):
             if len(self.cache_data) > max_size:
                 discarded_key = self.queue.pop(0)
                 del self.cache_data[discarded_key]
-                print("DISCARD: ", discarded_key)
+                print("DISCARD:", discarded_key)
 
     def get(self, key):
         """ Returns the value of the key from the dictionary """
