@@ -2,7 +2,6 @@
 """
 Implementation of a MRU cache
 """
-import math
 import time
 BaseCaching = __import__('base_caching').BaseCaching
 
@@ -23,10 +22,10 @@ class MRUCache(BaseCaching):
             self.cache_data[key] = item
             self.mru[key] = time.time()
         if len(self.cache_data) > max_size:
-            mru_time = math.inf
+            mru_time = 0
             discard_key = None
             for k, v in self.mru.items():
-                if k != key and time.time() - v < mru_time:
+                if k != key and v > mru_time:
                     mru_time = time.time() - v
                     discard_key = k
             print("DISCARD:", discard_key)
