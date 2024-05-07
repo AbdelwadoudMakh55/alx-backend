@@ -1,35 +1,36 @@
 #!/usr/bin/env python3
 """
-Implementation of a LRU cache
+Implementation of a MRU cache
 """
+import math
 import time
 BaseCaching = __import__('base_caching').BaseCaching
 
 
-class LRUCache(BaseCaching):
+class MRUCache(BaseCaching):
     """
-    LRUCache implements a simple LRU cache
+    MRUCache implements a simple MRU cache
     """
     def __init__(self):
         """ init function """
         super().__init__()
-        self.lru = {}
+        self.mru = {}
 
     def put(self, key, item):
         """ Adds the new item to the dictionary """
         if key is not None and item is not None:
-            max_size = LRUCache.MAX_ITEMS
+            max_size = MRUCache.MAX_ITEMS
             self.cache_data[key] = item
-            self.lru[key] = time.time()
+            self.mru[key] = time.time()
         if len(self.cache_data) > max_size:
-            lru_time = 0
+            mru_time = math.inf
             discard_key = None
-            for k, v in self.lru.items():
-                if k != key and time.time() - v > lru_time:
-                    lru_time = time.time() - v
+            for k, v in self.mru.items():
+                if k != key and time.time() - v < mru_time:
+                    mru_time = time.time() - v
                     discard_key = k
             print("DISCARD:", discard_key)
-            del self.lru[discard_key]
+            del self.mru[discard_key]
             del self.cache_data[discard_key]
 
     def get(self, key):
@@ -37,8 +38,8 @@ class LRUCache(BaseCaching):
         if key is None:
             return None
         try:
-            self.lru[key] = time.time()
+            self.mru[key] = time.time()
             return self.cache_data[key]
         except KeyError:
-            del self.lru[key]
+            del self.mru[key]
             return None
