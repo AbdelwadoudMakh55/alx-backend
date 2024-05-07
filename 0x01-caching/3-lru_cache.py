@@ -2,6 +2,7 @@
 """
 Implementation of a LRU cache
 """
+import math
 import time
 BaseCaching = __import__('base_caching').BaseCaching
 
@@ -22,11 +23,11 @@ class LRUCache(BaseCaching):
             self.cache_data[key] = item
             self.lru[key] = time.time()
         if len(self.cache_data) > max_size:
-            lru_time = 0
+            lru_time = math.inf
             discard_key = None
             for k, v in self.lru.items():
-                if k != key and time.time() - v > lru_time:
-                    lru_time = time.time() - v
+                if k != key and v < lru_time:
+                    lru_time = v
                     discard_key = k
             print("DISCARD:", discard_key)
             del self.lru[discard_key]
