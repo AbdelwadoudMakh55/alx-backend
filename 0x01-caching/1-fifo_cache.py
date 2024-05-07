@@ -7,31 +7,29 @@ BaseCaching = __import__('base_caching').BaseCaching
 
 class FIFOCache(BaseCaching):
     """
-    BaseCache implements a simple cache using a dictionary
+    FIFOCache implements a simple FIFO cache
     """
     def __init__(self):
+        """ init function """
         super().__init__()
-        self.oldest = []
+        self.queue = []
 
     def put(self, key, item):
         """ Adds the new item to the dictionary """
         if key is not None and item is not None:
             max_size = FIFOCache.MAX_ITEMS
             k_list = self.cache_data.keys()
-            if len(self.cache_data) < max_size and key not in k_list:
-                self.oldest.append(key)
-            if key not in k_list and len(self.cache_data) == max_size:
-                discarded_key = self.oldest.pop(0)
-                self.oldest.append(key)
+            if key not in k_list:
+                self.queue.append(key)
+            self.cache_data[key] = item
+            if len(self.cache_data) > max_size:
+                discarded_key = self.queue.pop(0)
                 del self.cache_data[discarded_key]
-                print("DISCARDED:", discarded_key)
-                self.cache_data[key] = item
-            else:
-                self.cache_data[key] = item
+                print("DISCARD: ", discarded_key)
 
     def get(self, key):
         """ Returns the value of the key from the dictionary """
-        if not key:
+        if key is None:
             return None
         try:
             return self.cache_data[key]
