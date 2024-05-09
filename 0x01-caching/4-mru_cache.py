@@ -24,10 +24,10 @@ class MRUCache(BaseCaching):
             else:
                 self.mru.pop(self.mru.index(key))
                 self.mru.append(key)
-        if len(self.cache_data) > max_size:
-            discard_key = self.mru.pop(-2)
-            print("DISCARD:", discard_key)
-            del self.cache_data[discard_key]
+            if len(self.cache_data) > max_size:
+                discard_key = self.mru.pop(-2)
+                print("DISCARD:", discard_key)
+                del self.cache_data[discard_key]
 
     def get(self, key):
         """ Returns the value of the key from the dictionary """
