@@ -15,9 +15,11 @@ class Config:
     """ Class for configuration """
     LANGUAGES = ["en", "fr"]
 
+
 app.config["BABEL_DEFAULT_LOCAL"] = "en"
 app.config["BABEL_DEFAULT_TIMEZONE"] = "utc"
 app.config["LANGUAGES"] = Config.LANGUAGES
+
 
 @app.route("/")
 def hello_holberton():
