@@ -5,7 +5,7 @@ Simple Flask app with jinja template and flask_babel for i18n
 
 
 from flask import Flask, render_template, request
-from flask_babel import Babel, gettext
+from flask_babel import Babel
 
 
 app = Flask(__name__)
