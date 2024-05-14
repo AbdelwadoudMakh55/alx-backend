@@ -6,7 +6,7 @@ Simple Flask app with jinja template and flask_babel for i18n
 
 from flask import Flask, g, render_template, request
 from flask_babel import Babel
-
+from pytz import timezone, exceptions
 
 app = Flask(__name__)
 babel = Babel(app)
@@ -59,11 +59,29 @@ def get_locale():
     return request.accept_languages.best_match(app.config["LANGUAGES"])
 
 
+@babel.timezoneselector
+def get_timezone():
+    """ Get timezone """
+    time_zone = request.args.get('timezone')
+    user_time_zone = g.user["timezone"]
+    if time_zone is not None:
+        try:
+            return timezone(time_zone)
+        except exceptions.UnknownTimeZoneError:
+            pass
+    elif user_time_zone is not None:
+        try:
+            return timezone(user_time_zone)
+        except exceptions.UnknownTimeZoneError:
+            pass
+    return app.config["BABEL_DEFAULT_TIMEZONE"]
+
+
 @app.route("/")
 def hello_holberton():
     """ Function that displays the Jinja template """
     username = None if g.user is None else g.user["name"]
-    return render_template('6-index.html', username=username)
+    return render_template('7-index.html', username=username)
 
 
 if __name__ == '__main__':
