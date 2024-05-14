@@ -33,3 +33,7 @@ msgstr ""
 msgid "not_logged_in"
 msgstr ""
 
+#: templates/index.html:13
+msgid "current_time_is"
+msgstr ""
+
