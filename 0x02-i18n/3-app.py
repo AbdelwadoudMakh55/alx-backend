@@ -5,7 +5,7 @@ Simple Flask app with jinja template and flask_babel for i18n
 
 
 from flask import Flask, render_template, request
-from flask_babel import Babel
+from flask_babel import Babel, gettext
 
 
 app = Flask(__name__)
@@ -31,7 +31,7 @@ def get_locale():
 @app.route("/")
 def hello_holberton():
     """ Function that displays the Jinja template """
-    return render_template('2-index.html')
+    return render_template('3-index.html')
 
 
 if __name__ == '__main__':
